@@ -31,3 +31,10 @@ pre-commit run --all-files  # 手動執行檢查
 cp .env.example .env  # 複製環境變數設定檔並填入你的值
 uv run uvicorn app.main:app --host=0.0.0.0 --port=8000 --reload --workers 4
 ```
+
+## TODOs
+
+- [ ] 支援語音功能
+    - [ ] 串接 Whisper
+    - [ ] 將轉換好的文字傳送到 Dify
+- [ ] 收到需求圖片後，記得要更新 Rich Menu
