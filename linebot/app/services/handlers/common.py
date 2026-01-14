@@ -76,17 +76,15 @@ async def send_message(reply_token: str, messages: list) -> None:
         logger.warning(f"訊息轉換成 JSON 時發生錯誤: {e}")
         readable_messages = str(messages)
 
-    flet_messages = []
-    for msg in messages:
-        flet_messages.extend(msg)
-
-    logger.info(f"發送訊息: {flet_messages}")
+    logger.info(f"發送訊息: {messages}")
     try:
         reply_request = ReplyMessageRequest(
-            reply_token=reply_token, messages=flet_messages
+            # 注意 messages 最多只能五個
+            reply_token=reply_token,
+            messages=messages,
         )
         line_bot_api.reply_message(reply_request)
     except Exception as e:
         logger.error(f"發送訊息時發生錯誤: {e}")
         raise
-    logger.info(f"已發送訊息: {flet_messages}")
+    logger.info(f"已發送訊息: {messages}")
