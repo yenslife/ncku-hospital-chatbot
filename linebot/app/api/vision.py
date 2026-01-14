@@ -7,6 +7,7 @@ from app.config.logger import get_logger
 
 logger = get_logger(__name__)
 
+
 def process_image(image_path: str, prompt: str = "圖片內容有什麼?") -> str:
     """
     Process image input using OpenAI API
