@@ -115,7 +115,9 @@ class DifyClient:
                     headers=self._prepare_headers(),
                     json=payload,
                 )
-                logger.info(f"Received response with status code: {response.status_code}")
+                logger.info(
+                    f"Received response with status code: {response.status_code}"
+                )
 
                 try:
                     response_data = response.json()
@@ -146,7 +148,9 @@ config = DifyConfig(api_key=os.getenv("DIFY_API_KEY", ""))
 
 
 # Provide async interface for Dify API inference
-async def inference(query: str, line_id: str = "abc-123", files: Optional[str] = None) -> str:
+async def inference(
+    query: str, line_id: str = "abc-123", files: Optional[str] = None
+) -> str:
     """Async interface for Dify API inference."""
     user_repository = UserRepository()
     try:

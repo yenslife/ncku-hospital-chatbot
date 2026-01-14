@@ -33,18 +33,27 @@ async def handle_postback_event(event):
 
     if data == "dialysis_causes":
         logger.info(f"使用者點擊 {user_display_name} 的 {user_id} 的 {data} 按鈕")
-        await send_message(event.reply_token, [
-            TextMessage(text="點擊「洗腎原因」"),
-        ])
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(text="點擊「洗腎原因」"),
+            ],
+        )
     elif data == "dialysis_catheter":
         logger.info(f"使用者點擊 {user_display_name} 的 {user_id} 的 {data} 按鈕")
-        await send_message(event.reply_token, [
-            TextMessage(text="點擊「洗腎管路」"),
-        ])
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(text="點擊「洗腎管路」"),
+            ],
+        )
     elif data == "dialysis_costs":
         logger.info(f"使用者點擊 {user_display_name} 的 {user_id} 的 {data} 按鈕")
-        await send_message(event.reply_token, [
-            TextMessage(text="點擊「洗腎費用」"),
-        ])
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(text="點擊「洗腎費用」"),
+            ],
+        )
     else:
         logger.warning(f"未知的 postback data: {data} from user {user_id}")

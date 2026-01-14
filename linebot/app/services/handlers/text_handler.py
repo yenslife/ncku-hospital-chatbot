@@ -5,7 +5,12 @@ import random
 
 from linebot.v3.messaging import TextMessage, FlexMessage
 
-from app.services.handlers.common import create_quick_reply, COMMANDS, send_message, show_loading_animation
+from app.services.handlers.common import (
+    create_quick_reply,
+    COMMANDS,
+    send_message,
+    show_loading_animation,
+)
 from app.api.dify import inference
 from app.config.line_config import line_bot_api
 from app.config.logger import get_logger
@@ -29,7 +34,10 @@ async def handle_text_message(event):
             if isinstance(response_text, list):
                 response_text = random.choice(response_text)
             quick_reply = create_quick_reply()
-            await send_message(event.reply_token, [TextMessage(text=response_text, quick_reply=quick_reply)])
+            await send_message(
+                event.reply_token,
+                [TextMessage(text=response_text, quick_reply=quick_reply)],
+            )
             return
 
         # 檢查使用次數，決定要不要 inference
@@ -45,7 +53,10 @@ async def handle_text_message(event):
                 if user_display_name
                 else response_text_list[0]
             )
-            await send_message(event.reply_token, [TextMessage(text=response_text, quick_reply=create_quick_reply())])
+            await send_message(
+                event.reply_token,
+                [TextMessage(text=response_text, quick_reply=create_quick_reply())],
+            )
             return
 
         await show_loading_animation(user_id)
@@ -63,10 +74,13 @@ async def handle_text_message(event):
                 if flex_content and flex_content != "False":
                     try:
                         flex_json = json.loads(flex_content)
-                        await send_message(event.reply_token, [
-                            text_message,
-                            FlexMessage(alt_text="詳細資訊", contents=flex_json),
-                        ])
+                        await send_message(
+                            event.reply_token,
+                            [
+                                text_message,
+                                FlexMessage(alt_text="詳細資訊", contents=flex_json),
+                            ],
+                        )
                         return
                     except Exception as e:
                         logger.error(f"Flex訊息解析錯誤: {str(e)}", exc_info=True)
@@ -74,13 +88,19 @@ async def handle_text_message(event):
             await send_message(event.reply_token, [text_message])
             return
 
-        await send_message(event.reply_token, [TextMessage(text=response_text, quick_reply=quick_reply)])
+        await send_message(
+            event.reply_token,
+            [TextMessage(text=response_text, quick_reply=quick_reply)],
+        )
 
     except Exception as e:
         logger.error(f"處理訊息時發生錯誤: {str(e)}", exc_info=True)
-        await send_message(event.reply_token, [
-            TextMessage(
-                text="抱歉，系統發生錯誤，請稍後再試。",
-                quick_reply=create_quick_reply(),
-            )
-        ])
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(
+                    text="抱歉，系統發生錯誤，請稍後再試。",
+                    quick_reply=create_quick_reply(),
+                )
+            ],
+        )

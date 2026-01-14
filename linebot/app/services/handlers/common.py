@@ -83,8 +83,7 @@ async def send_message(reply_token: str, messages: list) -> None:
     logger.info(f"發送訊息: {flet_messages}")
     try:
         reply_request = ReplyMessageRequest(
-            reply_token=reply_token,
-            messages=flet_messages
+            reply_token=reply_token, messages=flet_messages
         )
         line_bot_api.reply_message(reply_request)
     except Exception as e:
