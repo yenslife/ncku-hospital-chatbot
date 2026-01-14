@@ -1,4 +1,3 @@
-# 匯出所有處理函式
 from app.services.handlers.text_handler import handle_text_message
 from app.services.handlers.image_handler import handle_image_message
 from app.services.handlers.audio_handler import handle_audio_message

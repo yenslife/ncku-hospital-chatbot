@@ -1,5 +1,4 @@
-from linebot.models import TextSendMessage
-from linebot.models.events import FollowEvent
+from linebot.v3.messaging import TextMessage
 
 from app.services.handlers import (
     send_message,
@@ -18,7 +17,7 @@ class WelcomeService:
         self.logger = logger
         self.line_bot_api = line_bot_api
 
-    def send_welcome_message(self, event: FollowEvent):
+    async def send_welcome_message(self, event):
         if event.type != "follow":
             self.logger.info(f"Not a follow event: {event}")
             return
@@ -34,12 +33,12 @@ class WelcomeService:
         self.logger.info("Follow event received")
         self.logger.info(f"User id: {user_id}")
         self.logger.info(f"User display name: {user_display_name}")
-        show_loading_animation(user_id)
+        await show_loading_animation(user_id)
         self.logger.info(f"Sending welcome message to user: {user_id}")
-        send_message(
+        await send_message(
             reply_token,
             [
-                TextSendMessage(
+                TextMessage(
                     text=WELCOME_MESSAGE_1.format(user_display_name=user_display_name)
                 )
             ],
