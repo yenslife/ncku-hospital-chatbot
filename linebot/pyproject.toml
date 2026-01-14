@@ -1,0 +1,15 @@
+[project]
+name = "ncku-hospital-chatbot"
+version = "0.1.0"
+description = "成大醫院聊天機器人 for 洗腎患者"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.128.0",
+    "line-bot-sdk>=3.21.0",
+    "openai>=2.15.0",
+    "python-dotenv>=1.2.1",
+    "redis>=7.1.0",
+    "sqlalchemy>=2.0.45",
+    "uvicorn>=0.40.0",
+]

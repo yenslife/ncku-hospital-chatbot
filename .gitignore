@@ -1,0 +1,12 @@
+.env
+.venv
+
+# pycache
+__pycache__
+
+# db
+sql_app.db
+*.rdb
+
+# logs
+logs/
