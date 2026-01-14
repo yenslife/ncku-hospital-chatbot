@@ -7,10 +7,10 @@ from typing import Optional, Dict, Any, List
 from dataclasses import dataclass
 from functools import wraps
 import time
+import asyncio
 
-import requests
+import httpx
 from dotenv import load_dotenv
-from requests.exceptions import RequestException
 from app.repositories.user_repository import UserRepository
 
 # Configure logging
@@ -35,17 +35,17 @@ def retry_on_error(max_retries: int = 1, delay: float = 1.0):
 
     def decorator(func):
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        async def wrapper(*args, **kwargs):
             for attempt in range(max_retries):
                 try:
-                    return func(*args, **kwargs)
-                except RequestException as e:
+                    return await func(*args, **kwargs)
+                except (httpx.HTTPError, asyncio.TimeoutError) as e:
                     if attempt == max_retries - 1:
                         raise
                     logger.warning(
                         f"Attempt {attempt + 1} failed: {str(e)}. Retrying..."
                     )
-                    time.sleep(delay * (attempt + 1))
+                    await asyncio.sleep(delay * (attempt + 1))
             return None
 
         return wrapper
@@ -78,7 +78,7 @@ class DifyClient:
         return [{"type": "image", "transfer_method": "remote_url", "url": file_url}]
 
     @retry_on_error()
-    def inference(
+    async def inference(
         self, query: str, line_id: str = "abc-123", file_url: Optional[str] = None
     ) -> str:
         """
@@ -93,7 +93,7 @@ class DifyClient:
             str: The API response text
 
         Raises:
-            RequestException: If the API request fails
+            httpx.HTTPError: If the API request fails
         """
         user = self.user_repository.get_user(line_id)
 
@@ -109,34 +109,34 @@ class DifyClient:
         logger.info(f"Sending request to Dify API with payload: {payload}")
 
         try:
-            response = requests.post(
-                f"{self.config.base_url}/chat-messages",
-                headers=self._prepare_headers(),
-                json=payload,
-            )
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                response = await client.post(
+                    f"{self.config.base_url}/chat-messages",
+                    headers=self._prepare_headers(),
+                    json=payload,
+                )
+                logger.info(
+                    f"Received response with status code: {response.status_code}"
+                )
 
-            response.raise_for_status()
-            logger.info(f"Received response with status code: {response.status_code}")
+                try:
+                    response_data = response.json()
+                    answer = response_data["answer"]
 
-            try:
-                response_data = json.loads(response.content.decode("utf-8"))
-                answer = response_data["answer"]
+                    if new_conversation_id := response_data.get("conversation_id"):
+                        self.user_repository.update_conversation_id(
+                            line_id, new_conversation_id
+                        )
+                        logger.info(f"Updated conversation ID: {new_conversation_id}")
 
-                # Update conversation ID if present
-                if new_conversation_id := response_data.get("conversation_id"):
-                    self.user_repository.update_conversation_id(
-                        line_id, new_conversation_id
-                    )
-                    logger.info(f"Updated conversation ID: {new_conversation_id}")
+                    return answer
 
-                return answer
+                except json.JSONDecodeError as e:
+                    logger.error(f"JSON parsing error: {str(e)}")
+                except KeyError as e:
+                    logger.error(f"Missing required field in response: {str(e)}")
 
-            except json.JSONDecodeError as e:
-                logger.error(f"JSON parsing error: {str(e)}")
-            except KeyError as e:
-                logger.error(f"Missing required field in response: {str(e)}")
-
-        except RequestException as e:
+        except (httpx.HTTPError, asyncio.TimeoutError) as e:
             logger.error(f"API request error: {str(e)}")
             raise
 
@@ -147,15 +147,17 @@ class DifyClient:
 config = DifyConfig(api_key=os.getenv("DIFY_API_KEY", ""))
 
 
-# Provide a simple interface for backward compatibility
-def inference(query: str, line_id: str = "abc-123", files: Optional[str] = None) -> str:
-    """Backward compatible interface for Dify API inference."""
+# Provide async interface for Dify API inference
+async def inference(
+    query: str, line_id: str = "abc-123", files: Optional[str] = None
+) -> str:
+    """Async interface for Dify API inference."""
     user_repository = UserRepository()
     try:
         dify_client = DifyClient(config, user_repository)
-        return dify_client.inference(query, line_id, files)
+        return await dify_client.inference(query, line_id, files)
     except Exception as e:
-        logger.error(f"Inference error: {str(e)}")
+        logger.error(f"Inference error: {str(e)}", exc_info=True)
         return "系統發生錯誤，請稍後再試"
     finally:
         user_repository.db.close()
