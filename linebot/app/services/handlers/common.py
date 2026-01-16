@@ -22,13 +22,21 @@ COMMANDS = {
 }
 
 
-def create_quick_reply() -> QuickReply:
+def create_quick_reply(
+    query_list: list[str] = [
+        ("是不是要洗腎一輩子？", "是不是要洗腎一輩子？"),
+        ("有什麼東西不能吃？", "有什麼東西不能吃？"),
+        ("洗腎的時候血壓還好嗎？", "洗腎的時候血壓還好嗎？"),
+        ("小提示 💡", "/hint"),
+    ]
+) -> QuickReply:
     """建立快速回覆按鈕"""
-    return QuickReply(
-        items=[
-            QuickReplyItem(action=MessageAction(label="小提示 💡", text="/hint")),
-        ]
-    )
+    items = []
+    for query in query_list:
+        items.append(
+            QuickReplyItem(action=MessageAction(label=query[0], text=query[1]))
+        )
+    return QuickReply(items=items)
 
 
 async def show_loading_animation(user_id: str, duration: int = 60) -> bool:

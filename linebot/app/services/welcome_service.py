@@ -6,6 +6,7 @@ from app.services.handlers import (
 )
 from app.config.line_config import line_bot_api
 from app.config.logger import get_logger
+from app.services.handlers.common import create_quick_reply
 
 logger = get_logger(__name__)
 
@@ -39,7 +40,8 @@ class WelcomeService:
             reply_token,
             [
                 TextMessage(
-                    text=WELCOME_MESSAGE_1.format(user_display_name=user_display_name)
+                    text=WELCOME_MESSAGE_1.format(user_display_name=user_display_name),
+                    quick_reply=create_quick_reply(),
                 )
             ],
         )

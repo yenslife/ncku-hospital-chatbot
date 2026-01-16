@@ -61,7 +61,12 @@ async def handle_text_message(event):
 
         await show_loading_animation(user_id)
         response_text = await inference(user_input, user_id)
-        quick_reply = create_quick_reply()
+        if user_input == "有什麼東西不能吃？":
+            quick_reply = create_quick_reply(
+                [("醫院餐點", "醫院餐點"), ("家屬自備", "家屬自備")]
+            )
+        else:
+            quick_reply = create_quick_reply()
 
         # 處理可能包含 Flex Message 的回應，來自 Dify
         if "===FLEX_MESSAGE===" in response_text:
