@@ -1,4 +1,9 @@
-from linebot.v3.messaging import AsyncMessagingApi, Configuration, ApiClient, AsyncMessagingApiBlob
+from linebot.v3.messaging import (
+    AsyncMessagingApi,
+    Configuration,
+    ApiClient,
+    AsyncMessagingApiBlob,
+)
 from linebot.v3.webhook import WebhookParser
 from dotenv import load_dotenv
 import os
