@@ -56,8 +56,10 @@ async def speech_to_text(
         logger.error(f"Speech to text conversion failed: {str(e)}", exc_info=True)
         return None
 
+
 if __name__ == "__main__":
     # 測試方法：到 linebot 目錄底下執行 uv run python -m app.api.audio
     import asyncio
+
     converted_text = asyncio.run(speech_to_text("test.mp3"))
     print(converted_text)
