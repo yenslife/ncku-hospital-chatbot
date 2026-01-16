@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Optional
 from app.api.utils.providers import async_client
 from app.config.logger import get_logger
@@ -6,7 +7,7 @@ logger = get_logger(__name__)
 
 
 async def speech_to_text(
-    audio_path: str, model: str = "gpt-4o-mini-transcribe", language: str = "zh"
+    audio_path: str | Path, model: str = "gpt-4o-mini-transcribe", language: str = "zh"
 ) -> Optional[str]:
     """
     Convert speech to text using OpenAI API.
