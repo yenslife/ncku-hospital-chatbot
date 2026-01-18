@@ -39,3 +39,4 @@ uv run uvicorn app.main:app --host=0.0.0.0 --port=8000 --reload --workers 4
     - [x] 將轉換好的文字傳送到 Dify
 - [ ] 收到需求圖片後，記得要更新 Rich Menu
 - [ ] 等測得差不多後，寫一個 .service 檔案，然後用 systemd 啟動服務
+- [ ] 規劃、撰寫測試
