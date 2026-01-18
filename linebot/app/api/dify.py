@@ -12,6 +12,7 @@ import asyncio
 import httpx
 from dotenv import load_dotenv
 from app.repositories.user_repository import UserRepository
+from app.db.database import SessionLocal
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -152,7 +153,8 @@ async def inference(
     query: str, line_id: str = "abc-123", files: Optional[str] = None
 ) -> str:
     """Async interface for Dify API inference."""
-    user_repository = UserRepository()
+    db = SessionLocal()
+    user_repository = UserRepository(db)
     try:
         dify_client = DifyClient(config, user_repository)
         return await dify_client.inference(query, line_id, files)
@@ -160,7 +162,7 @@ async def inference(
         logger.error(f"Inference error: {str(e)}", exc_info=True)
         return "系統發生錯誤，請稍後再試"
     finally:
-        user_repository.db.close()
+        db.close()
 
 
 if __name__ == "__main__":
