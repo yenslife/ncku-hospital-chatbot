@@ -2,8 +2,8 @@
 
 # ======= 使用者設定 =======
 ACCESS_TOKEN=$LINE_ACCESS_TOKEN
-ALIAS_ID="richmenu-alias-page1"
-IMAGE_PATH="images/page1.png"
+ALIAS_ID="richmenu1"
+IMAGE_PATH="images/richmenu1.png"
 CHATBAR_TEXT="點我會有驚喜歐！😎"
 RICHMENU_NAME="page1"
 # ==========================
@@ -49,59 +49,84 @@ CREATE_RES=$(curl -s -X POST "https://api.line.me/v2/bot/richmenu" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "size": { "width": 2500, "height": 1686 },
-    "selected": true,
-    "name": "'"$RICHMENU_NAME"'",
-    "chatBarText": "'"$CHATBAR_TEXT"'",
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "selected": true,
+  "name": "'$RICHMENU_NAME'",
+  "chatBarText": "'$CHATBAR_TEXT'",
   "areas": [
     {
       "bounds": {
-        "x": 1036,
-        "y": 29,
-        "width": 1010,
-        "height": 272
+        "x": 74,
+        "y": 219,
+        "width": 1131,
+        "height": 330
       },
       "action": {
-        "type": "richmenuswitch",
-        "richMenuAliasId": "richmenu-alias-page2",
-        "data": "richmenu-changed-to-page2"
+        "type": "message",
+        "text": "/基本資料"
       }
     },
     {
       "bounds": {
-        "x": 2067,
-        "y": 29,
-        "width": 433,
-        "height": 264
-      },
-      "action": {
-        "type": "richmenuswitch",
-	"richMenuAliasId": "richmenu-alias-page3",
-	"data": "richmenu-changed-to-page3"
-      }
-    },
-    {
-      "bounds": {
-        "x": 124,
-        "y": 776,
+        "x": 1349,
+        "y": 227,
         "width": 1068,
-        "height": 449
+        "height": 326
       },
       "action": {
-        "type": "postback",
-	"data": "clear_conversation_id"
+        "type": "message",
+        "text": "/常見問題"
       }
     },
     {
       "bounds": {
-        "x": 1300,
-        "y": 759,
-        "width": 1093,
-        "height": 458
+        "x": 111,
+        "y": 685,
+        "width": 1077,
+        "height": 330
       },
       "action": {
-        "type": "postback",
-	"data": "reset_user"
+        "type": "message",
+        "text": "/知識寶典"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1304,
+        "y": 689,
+        "width": 1085,
+        "height": 318
+      },
+      "action": {
+        "type": "message",
+        "text": "/治療訊息"
+      }
+    },
+    {
+      "bounds": {
+        "x": 107,
+        "y": 1134,
+        "width": 1073,
+        "height": 335
+      },
+      "action": {
+        "type": "message",
+        "text": "/專家線上療"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1316,
+        "y": 1139,
+        "width": 1073,
+        "height": 321
+      },
+      "action": {
+        "type": "message",
+        "text": "/協助資源"
       }
     }
   ]
