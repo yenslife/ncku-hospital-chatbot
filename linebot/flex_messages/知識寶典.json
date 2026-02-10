@@ -1,0 +1,90 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "知識寶典",
+        "weight": "bold",
+        "size": "xl"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "洗腎原因",
+              "data": "postback_洗腎原因"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "洗腎管路",
+              "data": "postback_洗腎管路"
+            }
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "洗腎費用",
+              "data": "postback_洗腎費用"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "洗腎迷思",
+              "data": "postback_洗腎迷思"
+            }
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "放置洗腎策略的風險",
+              "data": "postback_放置洗腎策略的風險"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "緊急洗腎風險",
+              "data": "postback_緊急洗腎風險"
+            }
+          }
+        ]
+      }
+    ],
+    "flex": 0
+  }
+}

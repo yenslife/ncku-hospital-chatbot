@@ -10,6 +10,7 @@ from linebot.v3.messaging import (
 )
 from app.config.line_config import line_bot_api, LINE_CHANNEL_ACCESS_TOKEN
 from app.config.logger import get_logger
+from app.services.utils.flex_message import flex_message_convert_to_json
 
 logger = get_logger(__name__)
 
@@ -20,6 +21,7 @@ COMMANDS = {
     ],
     "/基本資料": ["成功點擊基本資料！"],
     "/常見問題": ["成功點擊常見問題！"],
+    # "/知識寶典": [flex_message_convert_to_json("flex_messages/知識寶典.json")],
     "/知識寶典": ["成功點擊知識寶典！"],
     "/治療訊息": ["成功點擊治療訊息！"],
     "/專家線上療": ["成功點擊專家線上療！"],
