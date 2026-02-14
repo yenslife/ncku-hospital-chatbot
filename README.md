@@ -15,6 +15,12 @@ cd linebot
 uv sync
 ```
 
+啟動 redis server (docker)
+
+```bash
+$ docker run -d -p 6379:6379 redis:latest
+```
+
 ### 設定 Pre-commit Hook
 
 Pre-commit 會在每次 commit 時自動執行程式碼檢查和格式化：
@@ -40,3 +46,4 @@ uv run uvicorn app.main:app --host=0.0.0.0 --port=8000 --reload --workers 4
 - [ ] 收到需求圖片後，記得要更新 Rich Menu
 - [ ] 等測得差不多後，寫一個 .service 檔案，然後用 systemd 啟動服務
 - [ ] 規劃、撰寫測試
+- [ ] 語音接上 rate limiter
