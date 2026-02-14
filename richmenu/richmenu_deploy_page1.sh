@@ -56,7 +56,7 @@ CREATE_RES=$(curl -s -X POST "https://api.line.me/v2/bot/richmenu" \
   "selected": true,
   "name": "'$RICHMENU_NAME'",
   "chatBarText": "'$CHATBAR_TEXT'",
-  "areas": [
+"areas": [
     {
       "bounds": {
         "x": 74,
@@ -89,8 +89,8 @@ CREATE_RES=$(curl -s -X POST "https://api.line.me/v2/bot/richmenu" \
         "height": 330
       },
       "action": {
-        "type": "message",
-        "text": "/知識寶典"
+        "type": "postback",
+        "data": "postback_知識寶典"
       }
     },
     {
