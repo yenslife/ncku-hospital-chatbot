@@ -1,0 +1,110 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "洗腎迷思破解",
+        "color": "#ffffff",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "text",
+        "text": "建立正確觀念，透析生活更安心",
+        "color": "#ffffffcc",
+        "size": "xs",
+        "margin": "xs"
+      }
+    ],
+    "backgroundColor": "#4C0013",
+    "paddingAll": "20px"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "請點選您想了解的常見誤解：",
+        "size": "sm",
+        "color": "#8c8c8c",
+        "margin": "md",
+        "weight": "bold"
+      }
+    ],
+    "paddingBottom": "0px"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "md",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "1. 洗腎後很快就會死亡？",
+          "text": "/洗腎後很快就會死亡？"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "2. 吃西藥會加重腎負擔？",
+          "text": "/吃西藥會加重腎臟負擔？"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "3. 洗腎就不用限制飲食？",
+          "text": "/洗腎就不用限制飲食？"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "4. 洗腎會失去工作自由？",
+          "text": "/洗腎後就無法工作、失去自由？"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "5. 洗腎會讓皮膚變黑？",
+          "text": "/洗腎會讓皮膚變黑？"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      }
+    ],
+    "flex": 0,
+    "paddingAll": "15px"
+  },
+  "styles": {
+    "footer": {
+      "separator": false
+    }
+  }
+}

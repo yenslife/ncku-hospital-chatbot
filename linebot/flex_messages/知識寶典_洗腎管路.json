@@ -14,10 +14,9 @@
       },
       {
         "type": "text",
-        "text": "血液透析綜合資訊指南",
+        "text": "血液透析通路護理指南",
         "color": "#ffffffcc",
-        "size": "xs",
-        "margin": "xs"
+        "size": "xs"
       }
     ],
     "backgroundColor": "#4C0013",
@@ -29,7 +28,7 @@
     "contents": [
       {
         "type": "text",
-        "text": "請點選下方按鈕了解更多",
+        "text": "請選擇導管類型以查看詳情",
         "size": "sm",
         "color": "#8c8c8c",
         "margin": "md"
@@ -54,8 +53,8 @@
             "type": "button",
             "action": {
               "type": "postback",
-              "label": "洗腎原因",
-              "data": "postback_洗腎原因"
+              "label": "雙腔導管",
+              "data": "postback_雙腔導管"
             },
             "style": "secondary",
             "color": "#ffd6d6",
@@ -65,37 +64,8 @@
             "type": "button",
             "action": {
               "type": "postback",
-              "label": "洗腎管路",
-              "data": "postback_洗腎管路"
-            },
-            "style": "secondary",
-            "color": "#ffd6d6",
-            "height": "sm"
-          }
-        ]
-      },
-      {
-        "type": "box",
-        "layout": "horizontal",
-        "spacing": "md",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "postback",
-              "label": "洗腎費用",
-              "data": "postback_洗腎費用"
-            },
-            "style": "secondary",
-            "color": "#ffd6d6",
-            "height": "sm"
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "postback",
-              "label": "洗腎迷思",
-              "data": "postback_洗腎迷思"
+              "label": "永久性導管",
+              "data": "postback_永久性導管"
             },
             "style": "secondary",
             "color": "#ffd6d6",
@@ -107,19 +77,8 @@
         "type": "button",
         "action": {
           "type": "postback",
-          "label": "放置洗腎管路的風險",
-          "data": "postback_放置洗腎管路的風險"
-        },
-        "style": "secondary",
-        "color": "#ffd6d6",
-        "height": "sm"
-      },
-      {
-        "type": "button",
-        "action": {
-          "type": "postback",
-          "label": "緊急洗腎風險",
-          "data": "postback_緊急洗腎風險"
+          "label": "動靜脈瘻管",
+          "data": "postback_動靜脈瘻管"
         },
         "style": "secondary",
         "color": "#ffd6d6",

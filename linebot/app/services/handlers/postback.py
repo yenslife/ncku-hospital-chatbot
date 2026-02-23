@@ -90,8 +90,69 @@ async def handle_postback_event(event):
                 )
             ],
         )
-    # richmenu 的基本資料
+    elif data == "postback_洗腎管路":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        flex_message = FlexMessage(
+            alt_text="洗腎管路 flex message",
+            contents=FlexContainer.from_dict(
+                flex_message_convert_to_json("flex_messages/知識寶典_洗腎管路.json")
+            ),
+        )
+        await send_message(
+            event.reply_token,
+            [flex_message],
+        )
+    elif data == "postback_雙腔導管":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(
+                    text="雙腔導管：常用於需要緊急洗腎的時候，但病人身上並沒有管路可以使用，管路常見於頸部或者鼠膝部兩處。不包含自體瘺管、人工動靜脈瘺管，因為在緊急洗腎的過程中，病人血流通常比較不穩定，如果使用瘺管風險較高。"
+                )
+            ],
+        )
+    elif data == "postback_永久性導管":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(
+                    text="永久性導管：病人原先就有放置永久性導管，常見於左、右鎖骨下方，遇到需要緊急洗腎時，就可以直接使用。"
+                )
+            ],
+        )
+    elif data == "postback_動靜脈瘻管":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(
+                    text="動靜脈瘻管：病人原先在手上就有放置，遇到緊急洗腎時，就可以直接使用。"
+                )
+            ],
+        )
+    elif data == "postback_洗腎迷思":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        flex_message = FlexMessage(
+            alt_text="洗腎迷思 flex message",
+            contents=FlexContainer.from_dict(
+                flex_message_convert_to_json("flex_messages/知識寶典_洗腎迷思.json")
+            ),
+        )
+        await send_message(
+            event.reply_token,
+            [
+                flex_message
+            ],
+        )
+
+    # 未知的 postback
     else:
         logger.warning(
             f"未知的 postback data: {data} from {user_display_name} {user_id}"
+        )
+        await send_message(
+            event.reply_token,
+            [TextMessage(text=f"尚未實作此區域: {data}，請通知工程師")],
         )

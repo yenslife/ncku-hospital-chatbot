@@ -13,7 +13,6 @@ redis_client: Redis = Redis(
     port=REDIS_PORT,
     db=REDIS_DB,
     decode_responses=True,
-    retry_on_timeout=True,
     socket_connect_timeout=5,
     socket_timeout=5,
 )
