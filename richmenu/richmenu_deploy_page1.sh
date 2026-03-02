@@ -101,8 +101,8 @@ CREATE_RES=$(curl -s -X POST "https://api.line.me/v2/bot/richmenu" \
         "height": 318
       },
       "action": {
-        "type": "message",
-        "text": "/治療訊息"
+        "type": "postback",
+        "data": "postback_治療訊息"
       }
     },
     {
