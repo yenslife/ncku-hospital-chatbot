@@ -1,0 +1,94 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "backgroundColor": "#4C0013",
+    "paddingAll": "20px",
+    "contents": [
+      {
+        "type": "text",
+        "text": "協助資源",
+        "color": "#ffffff",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "text",
+        "text": "醫院行政與環境資源協助",
+        "color": "#ffffffcc",
+        "size": "xs",
+        "margin": "xs"
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "請點選您需要了解的項目：",
+        "size": "sm",
+        "color": "#8c8c8c",
+        "margin": "md",
+        "weight": "bold"
+      }
+    ],
+    "paddingBottom": "0px"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "md",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "洗腎費用",
+          "text": "/洗腎費用"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "重大傷病卡申請",
+          "text": "/重大傷病卡"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "病情解釋預約",
+          "text": "/病情解釋"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "醫院休息空間",
+          "text": "/休息空間"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      }
+    ],
+    "flex": 0,
+    "paddingAll": "15px"
+  }
+}

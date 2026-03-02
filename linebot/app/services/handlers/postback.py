@@ -178,7 +178,18 @@ async def handle_postback_event(event):
                 )
             ],
         )
-
+    elif data == "postback_協助資源":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        flex_message = FlexMessage(
+            alt_text="協助資源 flex message",
+            contents=FlexContainer.from_dict(
+                flex_message_convert_to_json("flex_messages/協助資源.json")
+            ),
+        )
+        await send_message(
+            event.reply_token,
+            [flex_message],
+        )
     # 未知的 postback
     else:
         logger.warning(
