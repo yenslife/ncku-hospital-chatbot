@@ -1,0 +1,115 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "backgroundColor": "#4C0013",
+    "paddingAll": "20px",
+    "contents": [
+      {
+        "type": "text",
+        "text": "治療訊息",
+        "color": "#ffffff",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "text",
+        "text": "了解今日療程安排與原因",
+        "color": "#ffffffcc",
+        "size": "xs",
+        "margin": "xs"
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "請選擇您想查詢的項目：",
+        "size": "sm",
+        "color": "#8c8c8c",
+        "margin": "md",
+        "weight": "bold"
+      }
+    ],
+    "paddingBottom": "0px"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "md",
+    "contents": [
+      {
+        "type": "text",
+        "text": "📅 療程時間安排 (今天幾點洗？)",
+        "size": "xs",
+        "color": "#4C0013",
+        "weight": "bold",
+        "margin": "sm"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "洗腎時間",
+              "text": "/洗腎時間"
+            },
+            "style": "secondary",
+            "color": "#ffd6d6",
+            "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "持續多久",
+              "text": "/洗腎持續時間"
+            },
+            "style": "secondary",
+            "color": "#ffd6d6",
+            "height": "sm"
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "margin": "lg"
+      },
+      {
+        "type": "text",
+        "text": "💡 診斷原因查詢",
+        "size": "xs",
+        "color": "#4C0013",
+        "weight": "bold",
+        "margin": "sm"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "postback",
+          "label": "您家人洗腎的原因",
+          "data": "postback_您家人洗腎的原因"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      }
+    ],
+    "flex": 0,
+    "paddingAll": "15px"
+  },
+  "styles": {
+    "footer": {
+      "separator": false
+    }
+  }
+}

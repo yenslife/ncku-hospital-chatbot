@@ -158,6 +158,30 @@ async def handle_postback_event(event):
                 flex_message
             ],
         )
+    elif data == "postback_治療訊息":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        flex_message = FlexMessage(
+            alt_text="治療訊息 flex message",
+            contents=FlexContainer.from_dict(
+                flex_message_convert_to_json("flex_messages/治療訊息.json")
+            ),
+        )
+        await send_message(
+            event.reply_token,
+            [
+                flex_message
+            ],
+        )
+    elif data == "postback_您家人洗腎的原因":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        await send_message(
+            event.reply_token,
+            [
+                TextMessage(
+                    text=f"目前本系統還無法得知 {user_display_name} 您家人洗腎的原因，請通知工程師"
+                )
+            ],
+        )
 
     # 未知的 postback
     else:
