@@ -101,7 +101,7 @@ class DifyClient:
         payload = {
             "inputs": {},
             "query": "請分析這張圖片" if file_url else query,
-            "response_mode": "blocking",
+            "response_mode": "streaming",  # 改用 streaming 模式避免連接超時
             "conversation_id": user.conversation_id or "",
             "user": line_id,
             "files": self._prepare_files(file_url) if file_url else None,
@@ -110,38 +110,46 @@ class DifyClient:
         logger.info(f"Sending request to Dify API with payload: {payload}")
 
         try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
-                response = await client.post(
+            async with httpx.AsyncClient(timeout=180.0) as client:
+                async with client.stream(
+                    "POST",
                     f"{self.config.base_url}/chat-messages",
                     headers=self._prepare_headers(),
                     json=payload,
-                )
-                logger.info(
-                    f"Received response with status code: {response.status_code}"
-                )
-
-                try:
-                    response_data = response.json()
-                    answer = response_data["answer"]
-
-                    if new_conversation_id := response_data.get("conversation_id"):
-                        self.user_repository.update_conversation_id(
-                            line_id, new_conversation_id
-                        )
-                        logger.info(f"Updated conversation ID: {new_conversation_id}")
-
-                    return answer
-
-                except json.JSONDecodeError as e:
-                    logger.error(f"JSON parsing error: {str(e)}")
-                except KeyError as e:
-                    logger.error(f"Missing required field in response: {str(e)}")
+                ) as response:
+                    logger.info(f"Received response with status code: {response.status_code}")
+                    
+                    if response.status_code != 200:
+                        error_text = await response.aread()
+                        logger.error(f"Dify API error: {response.status_code} - {error_text.decode()}")
+                        return f"Dify API 錯誤: {response.status_code}"
+                    
+                    # 收集 streaming 回應
+                    full_response = ""
+                    conversation_id = None
+                    
+                    async for line in response.aiter_lines():
+                        if line.startswith("data: "):
+                            try:
+                                data = json.loads(line[6:])  # 移除 "data: " 前綴
+                                
+                                if data.get("event") == "message":
+                                    full_response += data.get("answer", "")
+                                elif data.get("event") == "message_end":
+                                    conversation_id = data.get("conversation_id")
+                                    break
+                            except json.JSONDecodeError:
+                                continue
+                    
+                    if conversation_id:
+                        self.user_repository.update_conversation_id(line_id, conversation_id)
+                        logger.info(f"Updated conversation ID: {conversation_id}")
+                    
+                    return full_response if full_response else "無法取得回應，請稍後再試"
 
         except (httpx.HTTPError, asyncio.TimeoutError) as e:
             logger.error(f"API request error: {str(e)}")
             raise
-
-        return "無法取得回應，請稍後再試"
 
 
 # Create global config instance
