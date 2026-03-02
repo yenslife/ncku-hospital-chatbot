@@ -50,6 +50,18 @@ async def handle_postback_event(event):
             event.reply_token,
             [flex_message],
         )
+    elif data == "postback_常見問題":
+        logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
+        flex_message = FlexMessage(
+            alt_text="常見問題 flex",
+            contents=FlexContainer.from_dict(
+                flex_message_convert_to_json("flex_messages/常見問題.json")
+            ),
+        )
+        await send_message(
+            event.reply_token,
+            [flex_message],
+        )
     elif data == "postback_洗腎原因":
         logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
         await send_message(

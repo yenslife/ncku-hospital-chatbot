@@ -1,0 +1,184 @@
+{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "backgroundColor": "#4C0013",
+        "paddingAll": "20px",
+        "contents": [
+          {
+            "type": "text",
+            "text": "常見問題：基本篇",
+            "color": "#ffffff",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "洗腎必要性與意願諮詢",
+            "color": "#ffffffcc",
+            "size": "xs",
+            "margin": "xs"
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "為什麼要洗腎？", "text": "/為什麼要洗腎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "一定要洗腎嗎？", "text": "/一定要洗腎嗎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "可以選不要洗嗎？", "text": "/可以選不要洗嗎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "要洗一輩子嗎？", "text": "/如果這次洗腎了，是不是要洗一輩子？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "洗腎會死嗎？", "text": "/洗腎會死嗎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          }
+        ]
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "backgroundColor": "#4C0013",
+        "paddingAll": "20px",
+        "contents": [
+          {
+            "type": "text",
+            "text": "常見問題：療程篇",
+            "color": "#ffffff",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "過程感受、用藥與監測",
+            "color": "#ffffffcc",
+            "size": "xs",
+            "margin": "xs"
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "洗多久、怎麼洗？", "text": "/洗多久、怎麼洗？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "會痛或不舒服嗎？", "text": "/洗腎過程會不會不舒服？會不會痛？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "常打針會感染嗎？", "text": "/常打針會不會容易感染？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "血壓與升壓藥問題", "text": "/血壓還好嗎？要不要使用升壓藥？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "今天脫多少水？", "text": "/今天脫多少水？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "幾點洗腎？", "text": "/幾點洗腎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          }
+        ]
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "backgroundColor": "#4C0013",
+        "paddingAll": "20px",
+        "contents": [
+          {
+            "type": "text",
+            "text": "常見問題：生活篇",
+            "color": "#ffffff",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "飲食禁忌、飲水與尿量",
+            "color": "#ffffffcc",
+            "size": "xs",
+            "margin": "xs"
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "有什麼東西不能吃？", "text": "/有什麼東西不能吃？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "水可以喝多少？", "text": "/是不是都不能喝水？、水可以喝多少？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "洗後還會尿尿嗎？", "text": "/洗腎之後還會尿尿嗎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "洗後注意事項", "text": "/洗腎後有特別需要注意的事情嗎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          },
+          {
+            "type": "button",
+            "action": { "type": "message", "label": "可以減少洗腎次數嗎？", "text": "/可以改一周一次或一周兩次洗腎嗎？" },
+            "style": "secondary", "color": "#ffd6d6", "height": "sm"
+          }
+        ]
+      }
+    }
+  ]
+}
