@@ -117,22 +117,26 @@ class DifyClient:
                     headers=self._prepare_headers(),
                     json=payload,
                 ) as response:
-                    logger.info(f"Received response with status code: {response.status_code}")
-                    
+                    logger.info(
+                        f"Received response with status code: {response.status_code}"
+                    )
+
                     if response.status_code != 200:
                         error_text = await response.aread()
-                        logger.error(f"Dify API error: {response.status_code} - {error_text.decode()}")
+                        logger.error(
+                            f"Dify API error: {response.status_code} - {error_text.decode()}"
+                        )
                         return f"Dify API 錯誤: {response.status_code}"
-                    
+
                     # 收集 streaming 回應
                     full_response = ""
                     conversation_id = None
-                    
+
                     async for line in response.aiter_lines():
                         if line.startswith("data: "):
                             try:
                                 data = json.loads(line[6:])  # 移除 "data: " 前綴
-                                
+
                                 if data.get("event") == "message":
                                     full_response += data.get("answer", "")
                                 elif data.get("event") == "message_end":
@@ -140,12 +144,16 @@ class DifyClient:
                                     break
                             except json.JSONDecodeError:
                                 continue
-                    
+
                     if conversation_id:
-                        self.user_repository.update_conversation_id(line_id, conversation_id)
+                        self.user_repository.update_conversation_id(
+                            line_id, conversation_id
+                        )
                         logger.info(f"Updated conversation ID: {conversation_id}")
-                    
-                    return full_response if full_response else "無法取得回應，請稍後再試"
+
+                    return (
+                        full_response if full_response else "無法取得回應，請稍後再試"
+                    )
 
         except (httpx.HTTPError, asyncio.TimeoutError) as e:
             logger.error(f"API request error: {str(e)}")

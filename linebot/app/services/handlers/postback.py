@@ -154,9 +154,7 @@ async def handle_postback_event(event):
         )
         await send_message(
             event.reply_token,
-            [
-                flex_message
-            ],
+            [flex_message],
         )
     elif data == "postback_治療訊息":
         logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
@@ -168,9 +166,7 @@ async def handle_postback_event(event):
         )
         await send_message(
             event.reply_token,
-            [
-                flex_message
-            ],
+            [flex_message],
         )
     elif data == "postback_您家人洗腎的原因":
         logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
