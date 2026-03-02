@@ -77,8 +77,8 @@ CREATE_RES=$(curl -s -X POST "https://api.line.me/v2/bot/richmenu" \
         "height": 326
       },
       "action": {
-        "type": "message",
-        "text": "/常見問題"
+        "type": "postback",
+        "data": "postback_常見問題"
       }
     },
     {
