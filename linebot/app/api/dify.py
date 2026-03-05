@@ -133,17 +133,26 @@ class DifyClient:
                     conversation_id = None
 
                     async for line in response.aiter_lines():
-                        if line.startswith("data: "):
-                            try:
-                                data = json.loads(line[6:])  # 移除 "data: " 前綴
+                        if not line.startswith("data:"):
+                            continue
 
-                                if data.get("event") == "message":
-                                    full_response += data.get("answer", "")
-                                elif data.get("event") == "message_end":
-                                    conversation_id = data.get("conversation_id")
-                                    break
-                            except json.JSONDecodeError:
-                                continue
+                        raw_data = line[5:].lstrip()  # 支援 "data:" 與 "data: "
+                        if not raw_data or raw_data == "[DONE]":
+                            continue
+
+                        try:
+                            data = json.loads(raw_data)
+                        except json.JSONDecodeError:
+                            continue
+
+                        # 只要任一事件有 conversation_id 就保留，最後統一更新
+                        if data.get("conversation_id"):
+                            conversation_id = data["conversation_id"]
+
+                        if data.get("event") == "message":
+                            full_response += data.get("answer", "")
+                        elif data.get("event") == "message_end":
+                            break
 
                     if conversation_id:
                         self.user_repository.update_conversation_id(
