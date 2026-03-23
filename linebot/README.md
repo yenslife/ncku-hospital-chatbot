@@ -8,7 +8,12 @@
     ```bash
     $ cp .env.example .env
     ```
-2. 使用 uv 運行，這邊可以設定多一點 worker
+2. 生成 SECRET_KEY（用於 JWT token 簽名）
+    ```bash
+    $ openssl rand -hex 32
+    ```
+    將輸出的字串填入 `.env` 的 `SECRET_KEY`
+3. 使用 uv 運行，這邊可以設定多一點 worker
     ```bash
     $ uv run uvicorn app.main:app --host=0.0.0.0 --port=8000 --reload --workers 4
     ```
