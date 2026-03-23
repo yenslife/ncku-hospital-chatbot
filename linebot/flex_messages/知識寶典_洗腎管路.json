@@ -50,39 +50,76 @@
         "spacing": "md",
         "contents": [
           {
-            "type": "button",
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "雙腔導管",
+                "wrap": true,
+                "align": "center",
+                "size": "sm",
+                "color": "#111111"
+              }
+            ],
+            "backgroundColor": "#ffd6d6",
+            "paddingAll": "md",
+            "cornerRadius": "md",
             "action": {
               "type": "postback",
               "label": "雙腔導管",
               "data": "postback_雙腔導管"
             },
-            "style": "secondary",
-            "color": "#ffd6d6",
-            "height": "sm"
+            "justifyContent": "center",
+            "flex": 1
           },
           {
-            "type": "button",
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "永久性導管",
+                "wrap": true,
+                "align": "center",
+                "size": "sm",
+                "color": "#111111"
+              }
+            ],
+            "backgroundColor": "#ffd6d6",
+            "paddingAll": "md",
+            "cornerRadius": "md",
             "action": {
               "type": "postback",
               "label": "永久性導管",
               "data": "postback_永久性導管"
             },
-            "style": "secondary",
-            "color": "#ffd6d6",
-            "height": "sm"
+            "justifyContent": "center",
+            "flex": 1
           }
         ]
       },
       {
-        "type": "button",
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "動靜脈瘻管\n(人工或自體瘻管)",
+            "wrap": true,
+            "align": "center",
+            "size": "sm",
+            "color": "#111111"
+          }
+        ],
+        "backgroundColor": "#ffd6d6",
+        "paddingAll": "md",
+        "cornerRadius": "md",
         "action": {
           "type": "postback",
           "label": "動靜脈瘻管",
           "data": "postback_動靜脈瘻管"
-        },
-        "style": "secondary",
-        "color": "#ffd6d6",
-        "height": "sm"
+        }
       }
     ],
     "flex": 0,
