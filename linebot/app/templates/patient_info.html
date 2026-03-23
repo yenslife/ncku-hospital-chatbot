@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>病患資訊管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background: #4C0013;
+            color: white;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #4C0013;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-edit {
+            background: #ffd6d6;
+            color: #4C0013;
+        }
+        .btn-edit:hover {
+            background: #ffb6b6;
+        }
+        .user-select {
+            margin-bottom: 20px;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 病患資訊管理系統</h1>
+        
+        <div class="card">
+            <div class="card-header">選擇病患</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="userSelect">選擇 LINE 使用者：</label>
+                    <select id="userSelect" onchange="showUserForm()">
+                        <option value="">-- 請選擇 --</option>
+                        {% for user in users %}
+                        <option value="{{ user.line_id }}" 
+                                data-bed="{{ user.bed_number }}"
+                                data-diagnosis="{{ user.diagnosis }}"
+                                data-doctor="{{ user.attending_physician }}"
+                                data-reason="{{ user.dialysis_reason }}">
+                            {{ user.display_name }} ({{ user.line_id[:10] }}...)
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="editForm" class="card form-section">
+            <div class="card-header">編輯病患資訊</div>
+            <div class="card-body">
+                <form action="/admin/patient-info" method="POST">
+                    <input type="hidden" name="line_id" id="formLineId">
+                    
+                    <div class="form-group">
+                        <label for="bed_number">床號：</label>
+                        <input type="text" name="bed_number" id="formBedNumber" placeholder="例如：12A">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="diagnosis">診斷：</label>
+                        <textarea name="diagnosis" id="formDiagnosis" placeholder="請輸入診斷內容"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="attending_physician">主治醫師：</label>
+                        <input type="text" name="attending_physician" id="formAttendingPhysician" placeholder="例如：王醫師">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dialysis_reason">洗腎原因：</label>
+                        <textarea name="dialysis_reason" id="formDialysisReason" placeholder="請輸入洗腎原因"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">💾 儲存資料</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">所有病患列表</div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>LINE 名稱</th>
+                            <th>床號</th>
+                            <th>診斷</th>
+                            <th>主治醫師</th>
+                            <th>洗腎原因</th>
+                            <th>狀態</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.display_name }}</td>
+                            <td>{{ user.bed_number or '-' }}</td>
+                            <td>{{ user.diagnosis[:30] + '...' if user.diagnosis and user.diagnosis|length > 30 else user.diagnosis or '-' }}</td>
+                            <td>{{ user.attending_physician or '-' }}</td>
+                            <td>{{ user.dialysis_reason[:30] + '...' if user.dialysis_reason and user.dialysis_reason|length > 30 else user.dialysis_reason or '-' }}</td>
+                            <td>
+                                {% if user.bed_number or user.diagnosis or user.attending_physician or user.dialysis_reason %}
+                                <span class="badge badge-success">已填寫</span>
+                                {% else %}
+                                <span class="badge badge-warning">未填寫</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showUserForm() {
+            const select = document.getElementById('userSelect');
+            const form = document.getElementById('editForm');
+            const selectedOption = select.options[select.selectedIndex];
+            
+            if (select.value) {
+                form.classList.add('active');
+                document.getElementById('formLineId').value = select.value;
+                document.getElementById('formBedNumber').value = selectedOption.dataset.bed || '';
+                document.getElementById('formDiagnosis').value = selectedOption.dataset.diagnosis || '';
+                document.getElementById('formAttendingPhysician').value = selectedOption.dataset.doctor || '';
+                document.getElementById('formDialysisReason').value = selectedOption.dataset.reason || '';
+            } else {
+                form.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

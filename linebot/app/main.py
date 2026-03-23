@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import linebot
+from app.routers import linebot, admin
 from app.db.database import engine
 from app.models import user
 
@@ -14,3 +14,4 @@ async def read_root():
 
 
 app.include_router(linebot.router)
+app.include_router(admin.router)
