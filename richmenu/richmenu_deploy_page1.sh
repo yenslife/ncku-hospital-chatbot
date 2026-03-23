@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# 請以這份檔案的 JSON 為主，line bot designer 只是用來參考 bounds 的位置
+
+### 環境變數
+# 檢查檔案是否存在
+if [ -f .env ]; then
+  while IFS='=' read -r key value; do
+    # 忽略註解和空行
+    if [[ ! $key =~ ^# && -n $key ]]; then
+      # 去除可能的引號
+      value=$(echo "$value" | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
+      export "$key=$value"
+    fi
+  done < .env
+fi
+
 # ======= 使用者設定 =======
 ACCESS_TOKEN=$LINE_ACCESS_TOKEN
 ALIAS_ID="richmenu1"
@@ -107,20 +122,8 @@ CREATE_RES=$(curl -s -X POST "https://api.line.me/v2/bot/richmenu" \
     },
     {
       "bounds": {
-        "x": 107,
-        "y": 1134,
-        "width": 1073,
-        "height": 335
-      },
-      "action": {
-        "type": "message",
-        "text": "/專家線上療"
-      }
-    },
-    {
-      "bounds": {
-        "x": 1316,
-        "y": 1139,
+        "x": 721,
+        "y": 1144,
         "width": 1073,
         "height": 321
       },
