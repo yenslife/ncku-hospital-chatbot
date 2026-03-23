@@ -1,0 +1,124 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "backgroundColor": "#4C0013",
+    "paddingAll": "20px",
+    "contents": [
+      {
+        "type": "text",
+        "text": "基本資料",
+        "color": "#ffffff",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "text",
+        "text": "病患住院資訊與診斷摘要",
+        "color": "#ffffffcc",
+        "size": "xs",
+        "margin": "xs"
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "md",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "text",
+            "text": "床號",
+            "size": "sm",
+            "color": "#4C0013",
+            "weight": "bold",
+            "flex": 2
+          },
+          {
+            "type": "text",
+            "text": "===BED_NO===",
+            "size": "sm",
+            "color": "#5C5C5C",
+            "flex": 4,
+            "align": "end"
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "診斷",
+            "size": "sm",
+            "color": "#4C0013",
+            "weight": "bold"
+          },
+          {
+            "type": "text",
+            "text": "===DIAGNOSIS===",
+            "size": "sm",
+            "color": "#5C5C5C",
+            "margin": "sm",
+            "wrap": true
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "text",
+            "text": "主治醫師",
+            "size": "sm",
+            "color": "#4C0013",
+            "weight": "bold",
+            "flex": 2
+          },
+          {
+            "type": "text",
+            "text": "===DOCTOR===",
+            "size": "sm",
+            "color": "#5C5C5C",
+            "flex": 4,
+            "align": "end"
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "postback",
+          "label": "查看：洗腎原因",
+          "data": "postback_查看洗腎原因"
+        },
+        "style": "secondary",
+        "color": "#ffd6d6",
+        "height": "sm"
+      }
+    ],
+    "paddingAll": "15px"
+  }
+}

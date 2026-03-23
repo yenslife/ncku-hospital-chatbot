@@ -3,7 +3,7 @@
 import json
 import random
 
-from linebot.v3.messaging import TextMessage, FlexMessage
+from linebot.v3.messaging import TextMessage, FlexMessage, FlexContainer
 
 from app.services.handlers.common import (
     create_quick_reply,
@@ -15,6 +15,9 @@ from app.api.dify import inference
 from app.config.line_config import line_bot_api
 from app.config.logger import get_logger
 from app.services.utils.rate_limiter import RateLimiter
+from app.services.utils.flex_message import flex_message_convert_to_json
+from app.repositories.user_repository import UserRepository
+from app.db.database import SessionLocal
 
 logger = get_logger(__name__)
 rate_limiter = RateLimiter(max_requests=50, window_seconds=3600)
@@ -30,6 +33,48 @@ async def handle_text_message(event):
 
         quick_reply = None
         if user_input in COMMANDS:
+            # 特殊處理：基本資料 flex message
+            if user_input == "/基本資料":
+                db = SessionLocal()
+                try:
+                    user_repository = UserRepository(db)
+                    user_data = user_repository.get_user(user_id)
+                    
+                    # 載入 flex message template
+                    flex_json = flex_message_convert_to_json("flex_messages/基本資料.json")
+                    
+                    # 替換佔位符
+                    flex_str = json.dumps(flex_json, ensure_ascii=False)
+                    flex_str = flex_str.replace("===BED_NO===", user_data.bed_number or "尚未設定")
+                    flex_str = flex_str.replace("===DIAGNOSIS===", user_data.diagnosis or "尚未設定")
+                    flex_str = flex_str.replace("===DOCTOR===", user_data.attending_physician or "尚未設定")
+                    flex_json = json.loads(flex_str)
+                    
+                    flex_message = FlexMessage(
+                        alt_text="基本資料",
+                        contents=FlexContainer.from_dict(flex_json)
+                    )
+                    await send_message(event.reply_token, [flex_message])
+                    return
+                finally:
+                    db.close()
+            
+            # 特殊處理：洗腎原因
+            if user_input == "/洗腎原因":
+                db = SessionLocal()
+                try:
+                    user_repository = UserRepository(db)
+                    user_data = user_repository.get_user(user_id)
+                    
+                    dialysis_reason = user_data.dialysis_reason or "尚未設定洗腎原因"
+                    await send_message(
+                        event.reply_token,
+                        [TextMessage(text=f"洗腎原因：{dialysis_reason}", quick_reply=create_quick_reply())],
+                    )
+                    return
+                finally:
+                    db.close()
+            
             response_text = COMMANDS[user_input]
             if isinstance(response_text, list):
                 response_text = random.choice(response_text)
