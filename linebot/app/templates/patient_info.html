@@ -110,6 +110,17 @@
         .btn-edit:hover {
             background: #ffb6b6;
         }
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-logout:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(220, 53, 69, 0.4);
+        }
         .user-select {
             margin-bottom: 20px;
         }
@@ -157,6 +168,10 @@
 <body>
     <div class="container">
         <h1>🏥 病患資訊管理系統</h1>
+        
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="/admin/logout" class="btn btn-logout">🚪 登出</a>
+        </div>
         
         <div class="card">
             <div class="card-header">選擇病患</div>
