@@ -215,14 +215,19 @@ async def handle_postback_event(event):
         )
     elif data == "postback_您家人洗腎的原因":
         logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
-        await send_message(
-            event.reply_token,
-            [
-                TextMessage(
-                    text=f"目前本系統還無法得知 {user_display_name} 您家人洗腎的原因，請通知工程師"
-                )
-            ],
-        )
+        db = SessionLocal()
+        try:
+            user_repository = UserRepository(db)
+            user_data = user_repository.get_user(user_id)
+
+            dialysis_reason = user_data.dialysis_reason or "尚未設定洗腎原因"
+            await send_message(
+                event.reply_token,
+                [TextMessage(text=f"洗腎原因：{dialysis_reason}", quick_reply=create_quick_reply())],
+            )
+            return
+        finally:
+            db.close()
     elif data == "postback_協助資源":
         logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
         flex_message = FlexMessage(
