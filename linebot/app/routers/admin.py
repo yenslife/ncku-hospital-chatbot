@@ -2,7 +2,7 @@
 
 import os
 import secrets
-from fastapi import APIRouter, Request, Form, Depends, HTTPException, status
+from fastapi import APIRouter, Request, Form, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
 from app.repositories.user_repository import UserRepository
 from app.config.line_config import line_bot_api
-from app.services.auth.jwt_handler import create_access_token, get_current_user, require_auth
+from app.services.auth.jwt_handler import create_access_token, get_current_user
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -38,10 +38,9 @@ async def login_page(request: Request, error: str = None):
     username = get_current_user(request)
     if username:
         return RedirectResponse(url="/admin/patient-info", status_code=302)
-    
+
     return templates.TemplateResponse(
-        "login.html",
-        {"request": request, "error": error}
+        "login.html", {"request": request, "error": error}
     )
 
 
@@ -54,23 +53,21 @@ async def login(
     """處理登入請求"""
     if not ADMIN_USERNAME or not ADMIN_PASSWORD:
         return templates.TemplateResponse(
-            "login.html",
-            {"request": request, "error": "系統未正確設定管理員帳號密碼"}
+            "login.html", {"request": request, "error": "系統未正確設定管理員帳號密碼"}
         )
-    
+
     # 驗證帳號密碼
     is_correct_username = secrets.compare_digest(username, ADMIN_USERNAME)
     is_correct_password = secrets.compare_digest(password, ADMIN_PASSWORD)
-    
+
     if not (is_correct_username and is_correct_password):
         return templates.TemplateResponse(
-            "login.html",
-            {"request": request, "error": "帳號或密碼錯誤"}
+            "login.html", {"request": request, "error": "帳號或密碼錯誤"}
         )
-    
+
     # 生成 JWT token
     access_token = create_access_token(data={"sub": username})
-    
+
     # 重定向到管理頁面，並設置 cookie
     response = RedirectResponse(url="/admin/patient-info", status_code=302)
     response.set_cookie(
@@ -80,7 +77,7 @@ async def login(
         max_age=60 * 60 * 24,  # 24 小時
         expires=60 * 60 * 24,
     )
-    
+
     return response
 
 
@@ -94,7 +91,7 @@ async def logout(request: Request):
 
 @router.get("/patient-info", response_class=HTMLResponse)
 async def patient_info_form(
-    request: Request, 
+    request: Request,
     db: Session = Depends(get_db),
 ):
     """顯示病患資訊填寫表單"""
@@ -102,11 +99,12 @@ async def patient_info_form(
     username = get_current_user(request)
     if not username:
         return RedirectResponse(url="/admin/login", status_code=302)
-    
+
     # 直接查詢所有使用者
     from app.models.user import User
+
     users = db.query(User).all()
-    
+
     # 取得 LINE 顯示名稱
     user_list = []
     for user in users:
@@ -115,19 +113,20 @@ async def patient_info_form(
             display_name = profile.display_name
         except Exception:
             display_name = "無法取得"
-        
-        user_list.append({
-            "line_id": user.line_id,
-            "display_name": display_name,
-            "bed_number": user.bed_number or "",
-            "diagnosis": user.diagnosis or "",
-            "attending_physician": user.attending_physician or "",
-            "dialysis_reason": user.dialysis_reason or "",
-        })
-    
+
+        user_list.append(
+            {
+                "line_id": user.line_id,
+                "display_name": display_name,
+                "bed_number": user.bed_number or "",
+                "diagnosis": user.diagnosis or "",
+                "attending_physician": user.attending_physician or "",
+                "dialysis_reason": user.dialysis_reason or "",
+            }
+        )
+
     return templates.TemplateResponse(
-        "patient_info.html",
-        {"request": request, "users": user_list}
+        "patient_info.html", {"request": request, "users": user_list}
     )
 
 
@@ -146,15 +145,15 @@ async def update_patient_info(
     username = get_current_user(request)
     if not username:
         return RedirectResponse(url="/admin/login", status_code=302)
-    
+
     user_repository = UserRepository(db)
     user = user_repository.get_user(line_id)
-    
+
     user.bed_number = bed_number if bed_number else None
     user.diagnosis = diagnosis if diagnosis else None
     user.attending_physician = attending_physician if attending_physician else None
     user.dialysis_reason = dialysis_reason if dialysis_reason else None
-    
+
     db.commit()
-    
+
     return RedirectResponse(url="/admin/patient-info", status_code=303)

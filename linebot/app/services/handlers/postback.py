@@ -18,7 +18,6 @@ from app.services.handlers.common import (
     send_message,
     show_loading_animation,
 )
-from app.services.utils.flex_message import flex_message_convert_to_json
 
 logger = get_logger(__name__)
 
@@ -47,26 +46,31 @@ async def handle_postback_event(event):
         try:
             user_repository = UserRepository(db)
             user_data = user_repository.get_user(user_id)
-            
+
             # 載入 flex message template
             flex_json = flex_message_convert_to_json("flex_messages/基本資料.json")
-            
+
             # 替換佔位符
             flex_str = json.dumps(flex_json, ensure_ascii=False)
-            flex_str = flex_str.replace("===BED_NO===", user_data.bed_number or "尚未設定")
-            flex_str = flex_str.replace("===DIAGNOSIS===", user_data.diagnosis or "尚未設定")
-            flex_str = flex_str.replace("===DOCTOR===", user_data.attending_physician or "尚未設定")
+            flex_str = flex_str.replace(
+                "===BED_NO===", user_data.bed_number or "尚未設定"
+            )
+            flex_str = flex_str.replace(
+                "===DIAGNOSIS===", user_data.diagnosis or "尚未設定"
+            )
+            flex_str = flex_str.replace(
+                "===DOCTOR===", user_data.attending_physician or "尚未設定"
+            )
             flex_json = json.loads(flex_str)
-            
+
             flex_message = FlexMessage(
-                alt_text="基本資料",
-                contents=FlexContainer.from_dict(flex_json)
+                alt_text="基本資料", contents=FlexContainer.from_dict(flex_json)
             )
             await send_message(event.reply_token, [flex_message])
             return
         finally:
             db.close()
-    
+
     # richmenu 的知識寶典
     if data == "postback_知識寶典":
         logger.info(f"使用者 {user_display_name} {user_id} 點擊 {data} 按鈕")
@@ -98,11 +102,16 @@ async def handle_postback_event(event):
         try:
             user_repository = UserRepository(db)
             user_data = user_repository.get_user(user_id)
-            
+
             dialysis_reason = user_data.dialysis_reason or "尚未設定洗腎原因"
             await send_message(
                 event.reply_token,
-                [TextMessage(text=f"洗腎原因：{dialysis_reason}", quick_reply=create_quick_reply())],
+                [
+                    TextMessage(
+                        text=f"洗腎原因：{dialysis_reason}",
+                        quick_reply=create_quick_reply(),
+                    )
+                ],
             )
             return
         finally:
@@ -223,7 +232,12 @@ async def handle_postback_event(event):
             dialysis_reason = user_data.dialysis_reason or "尚未設定洗腎原因"
             await send_message(
                 event.reply_token,
-                [TextMessage(text=f"洗腎原因：{dialysis_reason}", quick_reply=create_quick_reply())],
+                [
+                    TextMessage(
+                        text=f"洗腎原因：{dialysis_reason}",
+                        quick_reply=create_quick_reply(),
+                    )
+                ],
             )
             return
         finally:

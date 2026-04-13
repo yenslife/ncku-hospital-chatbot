@@ -44,10 +44,10 @@ async def speech_to_text(
             prompt="輸入為台灣人的口音，內容多為洗腎、醫院相關，這個服務的名字叫「我在腎邊，你問我懂」",
         )
 
-        logger.info(f"Successfully converted audio to text")
+        logger.info("Successfully converted audio to text")
         return converted_text
 
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         logger.error(f"Audio file not found: {audio_path}")
         return None
     except ValueError as e:
