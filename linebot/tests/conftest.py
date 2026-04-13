@@ -1,5 +1,11 @@
 """pytest 共用設定和 fixtures"""
 
+import os
+
+# 設定測試用的環境變數（避免 LINE Bot 初始化失敗）
+os.environ.setdefault("LINE_CHANNEL_ACCESS_TOKEN", "test_token")
+os.environ.setdefault("LINE_CHANNEL_SECRET", "test_secret")
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
