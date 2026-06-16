@@ -199,10 +199,12 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="userSelect">選擇 LINE 使用者：</label>
+                    <input type="text" id="userSearch" placeholder="🔍 搜尋病患名稱..." onkeyup="filterUserSelect()" style="margin-bottom: 10px;">
                     <select id="userSelect" onchange="showUserForm()">
                         <option value="">-- 請選擇 --</option>
                         {% for user in users %}
-                        <option value="{{ user.line_id }}" 
+                        <option value="{{ user.line_id }}"
+                                data-display-name="{{ user.display_name }}"
                                 data-bed="{{ user.bed_number }}"
                                 data-diagnosis="{{ user.diagnosis }}"
                                 data-doctor="{{ user.attending_physician }}"
@@ -348,6 +350,26 @@
                 noResultsRow.style.display = 'none';
             } else {
                 noResultsRow.style.display = '';
+            }
+        }
+
+        function filterUserSelect() {
+            const searchInput = document.getElementById('userSearch');
+            const filter = searchInput.value.toLowerCase();
+            const select = document.getElementById('userSelect');
+            const options = select.getElementsByTagName('option');
+
+            for (let i = 1; i < options.length; i++) {  // 跳過第一個「請選擇」選項
+                const option = options[i];
+                const displayName = option.getAttribute('data-display-name')?.toLowerCase() || '';
+                const lineId = option.value.toLowerCase();
+
+                // 搜尋顯示名稱或 LINE ID
+                if (displayName.includes(filter) || lineId.includes(filter)) {
+                    option.style.display = '';
+                } else {
+                    option.style.display = 'none';
+                }
             }
         }
     </script>
