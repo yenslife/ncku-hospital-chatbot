@@ -2,6 +2,7 @@
 
 from app.repositories.user_repository import UserRepository
 from app.models.user import User
+from datetime import datetime
 
 
 class TestUserRepository:
@@ -122,3 +123,55 @@ class TestUserRepository:
         assert "test_repr" in repr_str
         assert "conv_123" in repr_str
         assert "10A" in repr_str
+
+    def test_get_user_sets_created_at(self, db_session):
+        """測試 get_user 會為新使用者設定 created_at"""
+        # Arrange
+        repository = UserRepository(db_session)
+        line_id = "new_user_with_time"
+
+        # Act
+        user = repository.get_user(line_id)
+
+        # Assert
+        assert user is not None
+        assert user.created_at is not None
+        assert isinstance(user.created_at, datetime)
+
+    def test_update_created_at_when_none(self, db_session):
+        """測試 update_created_at 會在 created_at 為 None 時設定時間"""
+        # Arrange
+        repository = UserRepository(db_session)
+        line_id = "user_no_time"
+
+        # 建立一個沒有 created_at 的使用者
+        user = User(line_id=line_id, created_at=None)
+        db_session.add(user)
+        db_session.commit()
+
+        # Act
+        repository.update_created_at(line_id)
+
+        # Assert
+        updated_user = repository.get_user(line_id)
+        assert updated_user.created_at is not None
+        assert isinstance(updated_user.created_at, datetime)
+
+    def test_update_created_at_preserves_existing(self, db_session):
+        """測試 update_created_at 不會覆蓋已存在的 created_at"""
+        # Arrange
+        repository = UserRepository(db_session)
+        line_id = "user_with_time"
+        original_time = datetime(2024, 1, 1, 12, 0, 0)
+
+        # 建立一個有 created_at 的使用者
+        user = User(line_id=line_id, created_at=original_time)
+        db_session.add(user)
+        db_session.commit()
+
+        # Act
+        repository.update_created_at(line_id)
+
+        # Assert - 時間應保持不變
+        updated_user = repository.get_user(line_id)
+        assert updated_user.created_at == original_time

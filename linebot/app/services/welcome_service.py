@@ -7,6 +7,8 @@ from app.services.handlers import (
 from app.config.line_config import line_bot_api
 from app.config.logger import get_logger
 from app.services.handlers.common import create_quick_reply
+from app.db.database import SessionLocal
+from app.repositories.user_repository import UserRepository
 
 logger = get_logger(__name__)
 
@@ -34,6 +36,18 @@ class WelcomeService:
         self.logger.info("Follow event received")
         self.logger.info(f"User id: {user_id}")
         self.logger.info(f"User display name: {user_display_name}")
+
+        # 記錄加入好友時間
+        db = SessionLocal()
+        try:
+            user_repository = UserRepository(db)
+            user_repository.update_created_at(user_id)
+            self.logger.info(f"Recorded join time for user: {user_id}")
+        except Exception as e:
+            self.logger.error(f"Failed to record join time: {e}")
+        finally:
+            db.close()
+
         await show_loading_animation(user_id)
         self.logger.info(f"Sending welcome message to user: {user_id}")
         await send_message(

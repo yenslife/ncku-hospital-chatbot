@@ -114,6 +114,13 @@ async def patient_info_form(
         except Exception:
             display_name = "無法取得"
 
+        # 格式化加入時間
+        created_at_str = ""
+        if user.created_at:
+            created_at_str = user.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            created_at_str = "未知"
+
         user_list.append(
             {
                 "line_id": user.line_id,
@@ -122,6 +129,7 @@ async def patient_info_form(
                 "diagnosis": user.diagnosis or "",
                 "attending_physician": user.attending_physician or "",
                 "dialysis_reason": user.dialysis_reason or "",
+                "created_at": created_at_str,
             }
         )
 

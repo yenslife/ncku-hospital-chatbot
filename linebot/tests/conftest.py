@@ -2,9 +2,11 @@
 
 import os
 
-# 設定測試用的環境變數（避免 LINE Bot 初始化失敗）
+# 設定測試用的環境變數（避免第三方服務初始化失敗）
 os.environ.setdefault("LINE_CHANNEL_ACCESS_TOKEN", "test_token")
 os.environ.setdefault("LINE_CHANNEL_SECRET", "test_secret")
+os.environ.setdefault("OPENAI_API_KEY", "test_openai_key")
+os.environ.setdefault("TESTING", "true")  # 標示測試環境
 
 import pytest
 from sqlalchemy import create_engine

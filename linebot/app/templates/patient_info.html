@@ -236,6 +236,7 @@
                             <th>診斷</th>
                             <th>主治醫師</th>
                             <th>洗腎原因</th>
+                            <th>加入時間</th>
                             <th>狀態</th>
                         </tr>
                     </thead>
@@ -247,6 +248,7 @@
                             <td>{{ user.diagnosis[:30] + '...' if user.diagnosis and user.diagnosis|length > 30 else user.diagnosis or '-' }}</td>
                             <td>{{ user.attending_physician or '-' }}</td>
                             <td>{{ user.dialysis_reason[:30] + '...' if user.dialysis_reason and user.dialysis_reason|length > 30 else user.dialysis_reason or '-' }}</td>
+                            <td>{{ user.created_at or '-' }}</td>
                             <td>
                                 {% if user.bed_number or user.diagnosis or user.attending_physician or user.dialysis_reason %}
                                 <span class="badge badge-success">已填寫</span>
