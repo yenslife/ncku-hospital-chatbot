@@ -80,8 +80,8 @@ CREATE_RES=$(curl -s -X POST "https://api.line.me/v2/bot/richmenu" \
         "height": 330
       },
       "action": {
-        "type": "message",
-        "text": "/基本資料"
+        "type": "postback",
+        "data": "postback_基本資料"
       }
     },
     {
