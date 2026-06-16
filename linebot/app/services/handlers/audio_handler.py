@@ -1,7 +1,6 @@
 """處理音訊訊息的模組"""
 
 import aiofiles
-import asyncio
 from pathlib import Path
 from linebot.v3.messaging import TextMessage
 from app.services.handlers.common import (
@@ -29,18 +28,18 @@ def wait_for_audio_content(
 
             if message_content is not None and len(message_content) > 0:
                 logger.info(
-                    f"Got audio content after {i+1} retries, size: {len(message_content)} bytes"
+                    f"Got audio content after {i + 1} retries, size: {len(message_content)} bytes"
                 )
                 return message_content
             else:
-                logger.debug(f"Audio content not ready, retry {i+1}/{max_retries}")
+                logger.debug(f"Audio content not ready, retry {i + 1}/{max_retries}")
                 import time
 
                 time.sleep(retry_delay)
                 continue
         except Exception as e:
             logger.debug(
-                f"Error getting audio content, retry {i+1}/{max_retries}: {str(e)}"
+                f"Error getting audio content, retry {i + 1}/{max_retries}: {str(e)}"
             )
             import time
 

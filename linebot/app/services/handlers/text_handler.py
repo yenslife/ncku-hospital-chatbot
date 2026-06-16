@@ -39,42 +39,54 @@ async def handle_text_message(event):
                 try:
                     user_repository = UserRepository(db)
                     user_data = user_repository.get_user(user_id)
-                    
+
                     # 載入 flex message template
-                    flex_json = flex_message_convert_to_json("flex_messages/基本資料.json")
-                    
+                    flex_json = flex_message_convert_to_json(
+                        "flex_messages/基本資料.json"
+                    )
+
                     # 替換佔位符
                     flex_str = json.dumps(flex_json, ensure_ascii=False)
-                    flex_str = flex_str.replace("===BED_NO===", user_data.bed_number or "尚未設定")
-                    flex_str = flex_str.replace("===DIAGNOSIS===", user_data.diagnosis or "尚未設定")
-                    flex_str = flex_str.replace("===DOCTOR===", user_data.attending_physician or "尚未設定")
+                    flex_str = flex_str.replace(
+                        "===BED_NO===", user_data.bed_number or "尚未設定"
+                    )
+                    flex_str = flex_str.replace(
+                        "===DIAGNOSIS===", user_data.diagnosis or "尚未設定"
+                    )
+                    flex_str = flex_str.replace(
+                        "===DOCTOR===", user_data.attending_physician or "尚未設定"
+                    )
                     flex_json = json.loads(flex_str)
-                    
+
                     flex_message = FlexMessage(
-                        alt_text="基本資料",
-                        contents=FlexContainer.from_dict(flex_json)
+                        alt_text="基本資料", contents=FlexContainer.from_dict(flex_json)
                     )
                     await send_message(event.reply_token, [flex_message])
                     return
                 finally:
                     db.close()
-            
+
             # 特殊處理：洗腎原因
             if user_input == "/洗腎原因":
                 db = SessionLocal()
                 try:
                     user_repository = UserRepository(db)
                     user_data = user_repository.get_user(user_id)
-                    
+
                     dialysis_reason = user_data.dialysis_reason or "尚未設定洗腎原因"
                     await send_message(
                         event.reply_token,
-                        [TextMessage(text=f"洗腎原因：{dialysis_reason}", quick_reply=create_quick_reply())],
+                        [
+                            TextMessage(
+                                text=f"洗腎原因：{dialysis_reason}",
+                                quick_reply=create_quick_reply(),
+                            )
+                        ],
                     )
                     return
                 finally:
                     db.close()
-            
+
             response_text = COMMANDS[user_input]
             if isinstance(response_text, list):
                 response_text = random.choice(response_text)

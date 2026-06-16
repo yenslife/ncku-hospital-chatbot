@@ -1,6 +1,6 @@
 from app.models.user import User
-from app.db.database import SessionLocal
 from sqlalchemy.orm import Session
+from datetime import datetime
 
 
 class UserRepository:
@@ -11,7 +11,7 @@ class UserRepository:
         """取得用戶資料，如果不存在則創建新用戶"""
         user = self.db.query(User).filter(User.line_id == line_id).first()
         if not user:
-            user = User(line_id=line_id)
+            user = User(line_id=line_id, created_at=datetime.now())
             self.db.add(user)
             self.db.commit()
             self.db.refresh(user)
@@ -42,3 +42,10 @@ class UserRepository:
         if dialysis_reason is not None:
             user.dialysis_reason = dialysis_reason
         self.db.commit()
+
+    def update_created_at(self, line_id: str) -> None:
+        """更新用戶加入時間（如果尚未設定）"""
+        user = self.get_user(line_id)
+        if user.created_at is None:
+            user.created_at = datetime.now()
+            self.db.commit()

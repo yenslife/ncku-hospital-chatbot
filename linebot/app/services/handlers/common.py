@@ -10,7 +10,6 @@ from linebot.v3.messaging import (
 )
 from app.config.line_config import line_bot_api, LINE_CHANNEL_ACCESS_TOKEN
 from app.config.logger import get_logger
-from app.services.utils.flex_message import flex_message_convert_to_json
 
 logger = get_logger(__name__)
 

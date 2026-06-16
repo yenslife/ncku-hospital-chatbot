@@ -1,5 +1,4 @@
 import traceback
-from typing import Optional, Dict, Any, List
 
 from app.api.utils.providers import openai_api
 from app.api.utils.image_processing import encode_image

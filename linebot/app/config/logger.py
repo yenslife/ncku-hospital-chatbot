@@ -55,6 +55,9 @@ def get_logger(
     # 禁用日誌傳播，避免重複輸出
     logger.propagate = False
 
+    # 檢查是否為測試環境
+    is_testing = os.environ.get("TESTING", "false").lower() == "true"
+
     # 避免重複設定 handler
     if not logger.handlers:
         # 建立輸出到控制台的 handler
@@ -64,16 +67,18 @@ def get_logger(
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
 
-        # 建立輸出到檔案的 handler
-        file_handler = RotatingFileHandler(
-            os.path.join(LOG_DIR, f"{name.split('.')[-1]}.log"),
-            maxBytes=10 * 1024 * 1024,  # 10 MB
-            backupCount=5,
-        )
-        file_handler.setLevel(log_level)
-        file_formatter = logging.Formatter(LOG_FORMAT, DATE_FORMAT)
-        file_handler.setFormatter(file_formatter)
-        logger.addHandler(file_handler)
+        # 只有在非測試環境下才建立檔案 handler
+        if not is_testing:
+            # 建立輸出到檔案的 handler
+            file_handler = RotatingFileHandler(
+                os.path.join(LOG_DIR, f"{name.split('.')[-1]}.log"),
+                maxBytes=10 * 1024 * 1024,  # 10 MB
+                backupCount=5,
+            )
+            file_handler.setLevel(log_level)
+            file_formatter = logging.Formatter(LOG_FORMAT, DATE_FORMAT)
+            file_handler.setFormatter(file_formatter)
+            logger.addHandler(file_handler)
 
     return logger
 
