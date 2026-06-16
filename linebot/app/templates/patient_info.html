@@ -163,6 +163,27 @@
             color: #0c5460;
             border: 1px solid #bee5eb;
         }
+        .search-box {
+            margin-bottom: 15px;
+        }
+        .search-box input {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -228,7 +249,10 @@
         <div class="card">
             <div class="card-header">所有病患列表</div>
             <div class="card-body">
-                <table>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 搜尋病患（名稱、床號、診斷、醫師、洗腎原因）..." onkeyup="searchUsers()">
+                </div>
+                <table id="usersTable">
                     <thead>
                         <tr>
                             <th>LINE 名稱</th>
@@ -242,7 +266,11 @@
                     </thead>
                     <tbody>
                         {% for user in users %}
-                        <tr>
+                        <tr data-display-name="{{ user.display_name }}"
+                            data-bed-number="{{ user.bed_number or '' }}"
+                            data-diagnosis="{{ user.diagnosis or '' }}"
+                            data-attending-physician="{{ user.attending_physician or '' }}"
+                            data-dialysis-reason="{{ user.dialysis_reason or '' }}">
                             <td>{{ user.display_name }}</td>
                             <td>{{ user.bed_number or '-' }}</td>
                             <td>{{ user.diagnosis[:30] + '...' if user.diagnosis and user.diagnosis|length > 30 else user.diagnosis or '-' }}</td>
@@ -258,6 +286,9 @@
                             </td>
                         </tr>
                         {% endfor %}
+                        <tr id="noResults" class="no-results" style="display: none;">
+                            <td colspan="7">沒有找到符合的病患資料</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -269,7 +300,7 @@
             const select = document.getElementById('userSelect');
             const form = document.getElementById('editForm');
             const selectedOption = select.options[select.selectedIndex];
-            
+
             if (select.value) {
                 form.classList.add('active');
                 document.getElementById('formLineId').value = select.value;
@@ -279,6 +310,44 @@
                 document.getElementById('formDialysisReason').value = selectedOption.dataset.reason || '';
             } else {
                 form.classList.remove('active');
+            }
+        }
+
+        function searchUsers() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('usersTable');
+            const rows = table.getElementsByTagName('tr');
+            let hasResults = false;
+
+            // 從第 1 行開始（跳過標題行），倒數第二行是「沒有結果」的訊息
+            for (let i = 1; i < rows.length - 1; i++) {
+                const row = rows[i];
+                const displayName = row.getAttribute('data-display-name')?.toLowerCase() || '';
+                const bedNumber = row.getAttribute('data-bed-number')?.toLowerCase() || '';
+                const diagnosis = row.getAttribute('data-diagnosis')?.toLowerCase() || '';
+                const attendingPhysician = row.getAttribute('data-attending-physician')?.toLowerCase() || '';
+                const dialysisReason = row.getAttribute('data-dialysis-reason')?.toLowerCase() || '';
+
+                // 搜尋所有欄位
+                if (displayName.includes(filter) ||
+                    bedNumber.includes(filter) ||
+                    diagnosis.includes(filter) ||
+                    attendingPhysician.includes(filter) ||
+                    dialysisReason.includes(filter)) {
+                    row.style.display = '';
+                    hasResults = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+
+            // 顯示或隱藏「沒有結果」訊息
+            const noResultsRow = document.getElementById('noResults');
+            if (hasResults) {
+                noResultsRow.style.display = 'none';
+            } else {
+                noResultsRow.style.display = '';
             }
         }
     </script>
